@@ -51,6 +51,8 @@ class _CalculatorScreen extends State<CalculatorScreen> {
         _output = (num1 + num2).toString();
       }
 
+      calculations.add("$num1 $operand $num2");
+      operations.add("$_output");
       num1 = 0;
       num2 = 0;
       operand = "";
@@ -110,11 +112,13 @@ class _CalculatorScreen extends State<CalculatorScreen> {
               Container(
                 margin: const EdgeInsets.only(top: 30.0),
                 child: Row(
+                  // TODO: create row builder
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       flex: 2, // 20%
                       child: RawMaterialButton(
+                        // TODO: create button builder
                         onPressed: () {
                           buttonPressed("7");
                         },
@@ -474,7 +478,10 @@ class _CalculatorScreen extends State<CalculatorScreen> {
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => HistoricScreen(operations: calculations)));
+            builder: (context) => HistoricScreen(
+                  operations: operations,
+                  calculations: calculations,
+                )));
 
     if (result != null) {
       setState(() {
@@ -484,15 +491,3 @@ class _CalculatorScreen extends State<CalculatorScreen> {
     }
   }
 }
-
-// Rounded button
-/*
-RawMaterialButton(
-                onPressed: () {},
-                elevation: 2.0,
-                fillColor: Colors.white,
-                child: Text("1"),
-                padding: EdgeInsets.all(15.0),
-                shape: CircleBorder(),
-              )
- */
