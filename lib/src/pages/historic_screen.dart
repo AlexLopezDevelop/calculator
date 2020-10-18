@@ -1,48 +1,31 @@
 import 'package:flutter/material.dart';
 
-class HistoricScreen extends StatefulWidget {
-  HistoricScreen({Key key}) : super(key: key);
+class HistoricScreen extends StatelessWidget {
+  HistoricScreen({@required this.operations});
 
-  _HistoricScreen createState() => new _HistoricScreen();
-}
+  final List<String> operations;
 
-class _HistoricScreen extends State<HistoricScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Card(
-              child: Container(
-                color: Colors.white,
-                height: 50,
-                child: Center(
-                  child: Text("Historic"),
+        child: ListView.builder(
+          itemCount: operations.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(operations[index]),
+              leading: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red[800], width: 2.0),
+                    borderRadius: BorderRadius.circular(50)),
+                child: Text(
+                  "$index",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+                padding: EdgeInsets.all(5),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text("4"),
-                      subtitle: Text("2 x 2"),
-                      leading: CircleAvatar(
-                        child: Text(
-                          "$index",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.green,
-                      ),
-                    ),
-                  );
-                },
-                itemCount: 2,
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -52,6 +35,30 @@ class _HistoricScreen extends State<HistoricScreen> {
         child: Icon(Icons.calculate),
         backgroundColor: Colors.green,
       ),
+    );
+  }
+
+  Widget _operationsList(List<String> operations) {
+    return ListView.builder(
+      itemCount: operations.length,
+      itemBuilder: (BuildContext context, int i) {
+        return ListTile(
+          title: Text(operations[i]),
+          onTap: () {
+            Navigator.pop(context, operations[i]);
+          },
+          leading: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.red[800], width: 2.0),
+                borderRadius: BorderRadius.circular(50)),
+            child: Text(
+              operations[i],
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            padding: EdgeInsets.all(5),
+          ),
+        );
+      },
     );
   }
 }

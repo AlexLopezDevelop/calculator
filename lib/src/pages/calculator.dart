@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:calculator/src/pages/historic_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +8,16 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreen extends State<CalculatorScreen> {
+  List<String> operations = [];
+  List<String> calculations = [];
+  bool isNewEquation = true;
+  String calculatorString = '';
   String output = "0", _output = "0";
   String operand = "";
   double num1, num2 = 0;
 
   buttonPressed(String buttonText) {
     if (buttonText == "CLEAR") {
-      // TODO: Create clear button
       _output = "0";
       num1 = 0;
       num2 = 0;
@@ -457,11 +458,7 @@ class _CalculatorScreen extends State<CalculatorScreen> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HistoricScreen()),
-                      );
+                      _navigateAndDisplayHistory(context);
                     }),
               ),
             ],
@@ -469,6 +466,22 @@ class _CalculatorScreen extends State<CalculatorScreen> {
         ),
       ),
     );
+  }
+
+  _navigateAndDisplayHistory(BuildContext context) async {
+    print(operations.length);
+    print(calculations.length);
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HistoricScreen(operations: calculations)));
+
+    if (result != null) {
+      setState(() {
+        isNewEquation = false;
+        calculatorString = result;
+      });
+    }
   }
 }
 
